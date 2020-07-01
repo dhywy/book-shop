@@ -1,10 +1,10 @@
 package com.book.bookshop.web;
 
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.book.bookshop.entity.Book;
+import com.book.bookshop.mapper.BookMapper;
 import com.book.bookshop.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class BookController {
     @Autowired
     private BookService bookService;
+    @Autowired
+    private BookMapper bookMapper;
 
     @RequestMapping("/index")
     public String index(){
@@ -63,6 +65,8 @@ public class BookController {
         System.out.println("page="+page);
         Integer i = Integer.parseInt(category);
         queryWrapper.eq("category", i);
+
+
         IPage<Book> iPage = bookService.page(new Page<Book>(page,pageSize),queryWrapper);
         model.addAttribute("bookList",iPage.getRecords());
         model.addAttribute("pre",iPage.getCurrent()-1);
